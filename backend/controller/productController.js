@@ -1,10 +1,15 @@
 const productModel = require('../model/productModel.js');
 const ErrorHandler = require('../utils/errorHandler.js');
-const catchAsyncErrorHandler = require('../middleware/catchAyncErrors.js')
+const catchAsyncErrorHandler = require('../middleware/catchAyncErrors.js');
+const APIFeatures = require('../utils/apiFeatures.js');
 
 
 // Create product ==> admin
 exports.createProduct = catchAsyncErrorHandler(async (req, res, next) => {
+
+    // Save the user id who is reating the product
+    req.body.user = req.user.id;    // During user auth we added user in req
+    
     const product = await productModel.create(req.body);
     res.status(201).json({
         success: true,
@@ -14,10 +19,18 @@ exports.createProduct = catchAsyncErrorHandler(async (req, res, next) => {
 
 // Get all products
 exports.getAllProducts = catchAsyncErrorHandler( async (req, res, next) => {
-    const products = await productModel.find();
+    const produtCount = await productModel.countDocuments();
+    const resultPerPage = 3;
+    const apiFeature = new APIFeatures(productModel.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resultPerPage);
+
+    const products = await apiFeature.query;
+
     res.status(200).json({
         success: true,
-        count: products.length,
+        produtCount,
         products
     });
 })
