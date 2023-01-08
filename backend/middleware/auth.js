@@ -10,7 +10,7 @@ exports.isAuthenticatedUser = catchAyncErrors(
         if (!token) return next(new ErrorHandler("Please login to access the resource", 401));
 
         const decodedData = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        console.log("decodde data ", decodedData);
+        // console.log("decodde data => ", decodedData);
 
         // Save the user to req obj if logged in successfully
         req.user = await userModel.findById(decodedData.id);
