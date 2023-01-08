@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 
 const userSchema = new mongoose.Schema({
@@ -68,6 +69,21 @@ userSchema.methods.getJwtToken = function () {
 userSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 }
+
+// Generating Reset Password token
+userSchema.methods.getResetPasswordToken = function () {
+    // generating token
+    const resetToken = crypto.randomBytes(20).toString("hex");
+
+    // Hashing and adding resetPasswordToken to userSchema : note here value is creted but saved but db, we will save it when forgot password is clicked
+    this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+    // adding resetPasswordExpire to userSchema : note here value not saving to db now
+    this.resetPasswordExpire = Date.now() + 15 * 60 * 1000 // current time + 15 mins
+
+    return resetToken;
+}
+
 
 module.exports = mongoose.model("User", userSchema);
 

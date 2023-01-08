@@ -2,7 +2,7 @@
 // Generate token and save in cookie
 const sendToken = (user, statusCode, res) => {
     const token = user.getJwtToken();
-    console.log("jwt token ",token);
+    // console.log("jwt token => ",token);
 
     const options = {
         expiry: new Date(Date.now(), process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),

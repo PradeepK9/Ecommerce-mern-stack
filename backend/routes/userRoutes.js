@@ -1,10 +1,32 @@
 const express = require('express');
-const { register, loginUser, logoutUser } = require('../controller/userController');
+const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
+
+const { register, loginUser, logoutUser, forgotPassword, resetPassword, getUserDetails, changePassword, updateProfile, getAllUser, getSingleUser, updateUserRole, deleteUser } = require('../controller/userController');
 
 const router = express.Router();
 
 router.route('/register').post(register);
 router.route('/login').post(loginUser);
 router.route('/logout').get(logoutUser);
+router.route('/password/forgot').post(forgotPassword);
+router.route('/password/reset/:token').put(resetPassword);
+
+router.route("/me").get(isAuthenticatedUser, getUserDetails);
+
+router.route("/password/update").put(isAuthenticatedUser, changePassword);
+
+router.route("/me/update").put(isAuthenticatedUser, updateProfile);
+
+router
+    .route("/admin/users")
+    .get(isAuthenticatedUser, authorizeRoles("admin"), getAllUser);
+
+router
+    .route("/admin/user/:id")
+    .get(isAuthenticatedUser, authorizeRoles("admin"), getSingleUser)
+    .put(isAuthenticatedUser, authorizeRoles("admin"), updateUserRole)
+    .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+
+module.exports = router;
 
 module.exports = router;
