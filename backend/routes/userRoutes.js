@@ -28,5 +28,3 @@ router
     .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
 
 module.exports = router;
-
-module.exports = router;

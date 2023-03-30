@@ -69,11 +69,11 @@ exports.forgotPassword = catchAsyncErrorHandler(
         // Get reset password token
         const resetToken = user.getResetPasswordToken();
 
-        // save theresetPasswordToken and resetPasswordExpire to db 
+        // save the resetPasswordToken and resetPasswordExpire to db 
         await user.save({ validateBeforeSave: false })
 
         const resetPasswordUrl = `${req.protocal}//:${req.get("host")}/api/v1/password/reset/${resetToken}`;
-        const message = `Your reset pasword token is :- \n\n${resetPasswordUrl} \n\nIf you have not rquested this mail, please ignore it. `
+        const message = `Your reset password token is :- \n\n${resetPasswordUrl} \n\nIf you have not rquested this mail, please ignore it. `
 
         try {
             await sendEmail(

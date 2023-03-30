@@ -38,11 +38,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "user",
     },
-    user: {
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-        required: true
-    },
     createdAt: {
         type: Date,
         default: Date.now,
@@ -83,7 +78,6 @@ userSchema.methods.getResetPasswordToken = function () {
 
     return resetToken;
 }
-
 
 module.exports = mongoose.model("User", userSchema);
 
