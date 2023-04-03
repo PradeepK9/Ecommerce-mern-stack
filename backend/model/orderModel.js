@@ -2,9 +2,12 @@ const mongoose = require("mongoose");
 
 const ordeSchema = new mongoose.Schema({
     shippingInfo : {
-        address : {
+        address1 : {
             type : String,
             required : true
+        },
+        address2 : {
+            type : String
         },
         city : {
             type : String,
@@ -14,7 +17,7 @@ const ordeSchema = new mongoose.Schema({
             type : String,
             required : true
         },
-        zip : {
+        zipCode : {
             type : String,
             required : true
         },
@@ -95,7 +98,7 @@ const ordeSchema = new mongoose.Schema({
         required : true,
         default : 0
     },
-    oderStatus : {
+    orderStatus : {
         type : String,
         required : true,
         default : "Pending"
