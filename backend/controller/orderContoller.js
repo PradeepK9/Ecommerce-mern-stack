@@ -30,11 +30,11 @@ const createOrder = catchAsyncErrorHandler(async (req, res, next) => {
 })
 
 // get order details - admin
-const getOrderDetails = catchAsyncErrorHandler(async(req, res, next) => {
+const getOrderDetails = catchAsyncErrorHandler(async (req, res, next) => {
     // here populate will return name and email of that user from User model
-    const order = await orderModel.findById(req.params.id).populate("user","name email");
-    if(!order){
-        return next(new ErrorHandler("Product not found",404));
+    const order = await orderModel.findById(req.params.id).populate("user", "name email");
+    if (!order) {
+        return next(new ErrorHandler("Product not found", 404));
     }
     res.status(200).json(
         {
@@ -45,9 +45,9 @@ const getOrderDetails = catchAsyncErrorHandler(async(req, res, next) => {
 })
 
 // get all orders - user
-const myOrders = catchAsyncErrorHandler( async(req, res, next) => {
-    const orders = await orderModel.find({user:req.user._id});
-    if(!orders) return next(new ErrorHandler("You din't place any order","404"));
+const myOrders = catchAsyncErrorHandler(async (req, res, next) => {
+    const orders = await orderModel.find({ user: req.user._id });
+    if (!orders) return next(new ErrorHandler("You din't place any order", "404"));
     res.status(200).json(
         {
             success: true,
@@ -57,7 +57,7 @@ const myOrders = catchAsyncErrorHandler( async(req, res, next) => {
 })
 
 // get all orders - admin
-const getAllOrders = catchAsyncErrorHandler( async(req, res, next) => {
+const getAllOrders = catchAsyncErrorHandler(async (req, res, next) => {
     const orders = await orderModel.find();
     let totalAmount = 0;
     orders.forEach(order => {
@@ -75,62 +75,62 @@ const getAllOrders = catchAsyncErrorHandler( async(req, res, next) => {
 // update order status - admin
 const updateOrder = catchAsyncErrorHandler(async (req, res, next) => {
     const order = await orderModel.findById(req.params.id);
-  
+
     if (!order) {
-      return next(new ErrorHandler("Order not found with this Id", 404));
+        return next(new ErrorHandler("Order not found with this Id", 404));
     }
 
     console.log(order.orderStatus);
     console.log(order.orderStatus.toLowerCase());
 
-  
+
     if (order.orderStatus.toLowerCase() === "delivered") {
-      return next(new ErrorHandler("The order is already delivered.", 400));
+        return next(new ErrorHandler("The order is already delivered.", 400));
     }
-  
+
     if (req.body.status.toLowerCase() === "shipped") {
-      order.orderItems.forEach(async (o) => {
-        await updateStock(o.product, o.quantity);
-      });
+        order.orderItems.forEach(async (o) => {
+            await updateStock(o.product, o.quantity);
+        });
     }
 
     order.orderStatus = req.body.status;
-  
-    if (req.body.status.toLowerCase() === "delivered") {
-      order.deliveredAt = Date.now();
-    }
-  
-    await order.save({ validateBeforeSave: false });
-    
-    res.status(200).json({
-      success: true,
-      message: "Order updated successfully"
-    });
-  });
 
-  async function updateStock(id, quantity) {
+    if (req.body.status.toLowerCase() === "delivered") {
+        order.deliveredAt = Date.now();
+    }
+
+    await order.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+        success: true,
+        message: "Order updated successfully"
+    });
+});
+
+async function updateStock(id, quantity) {
     const product = await productModel.findById(id);
-  
+
     product.Stock -= quantity;
-  
+
     await product.save({ validateBeforeSave: false });
-  };
+};
 
 // delete Order -- Admin
 const deleteOrder = catchAsyncErrorHandler(async (req, res, next) => {
     const order = await orderModel.findById(req.params.id);
-  
+
     if (!order) {
-      return next(new ErrorHandler("Order not found with this Id", 404));
+        return next(new ErrorHandler("Order not found with this Id", 404));
     }
-  
+
     await order.remove();
-  
+
     res.status(200).json({
-      success: true,
-      message: "Order deleted successfully"
+        success: true,
+        message: "Order deleted successfully"
     });
-  });
+});
 
 module.exports = {
     createOrder,
