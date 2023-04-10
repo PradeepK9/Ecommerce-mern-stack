@@ -160,9 +160,9 @@ exports.deleteReview = catchAsyncErrorHandler(async (req, res, next) => {
             ratings
         },
         {
-            new:true,
-            runValidators:true,
-            useFindAndModify:false
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
         })
 
     res.status(200).json({
