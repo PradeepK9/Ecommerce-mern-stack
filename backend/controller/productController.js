@@ -20,11 +20,11 @@ exports.createProduct = catchAsyncErrorHandler(async (req, res, next) => {
 // Get all products
 exports.getAllProducts = catchAsyncErrorHandler(async (req, res, next) => {
     const productCount = await productModel.countDocuments();
-    const resultPerPage = 3;
+    // const resultPerPage = 3;
     const apiFeature = new APIFeatures(productModel.find(), req.query)
         .search()
         .filter()
-        .pagination(resultPerPage);
+        // .pagination(resultPerPage);
 
     const products = await apiFeature.query;
 
@@ -34,6 +34,16 @@ exports.getAllProducts = catchAsyncErrorHandler(async (req, res, next) => {
         products
     });
 })
+
+// Get All Product (Admin)
+exports.getAdminProducts = catchAsyncErrorHandler(async (req, res, next) => {
+    const products = await productModel.find();
+  
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  });
 
 // Update product ==> admin
 exports.updateProduct = catchAsyncErrorHandler(async (req, res, next) => {
