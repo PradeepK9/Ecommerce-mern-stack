@@ -1,45 +1,56 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { FaBeer } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+// import { useAlert } from "react-alert";
 import "./Home.css";
-import Product from "../Product/Product";
-
-
-const product = {
-    _id: "973789ndjdjdd",
-    name: "Half Tshirt",
-    price: "Rs 500",
-    images: [
-        {
-            url: "data:image/jpeg;base64,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"
-        }
-    ]
-}
+import ProductCard from "./ProductCard.js";
+import MetaData from "../layout/MetaData";
+import { clearErrors, getProduct } from "../../actions/productAction.js";
+import Loader from "../layout/Loader/Loader.js";
 
 const Home = () => {
+    // const alert = useAlert();
+    const dispatch = useDispatch();
+    const { loading, error, products } = useSelector((state) => state.products);
+
+    useEffect(() => {
+        if (error) {
+            // alert.error(error);
+            console.log("error=> ",error)
+            dispatch(clearErrors());
+        }
+        dispatch(getProduct());
+    }, [dispatch, error]);
+
     return (
         <Fragment>
-            <div className="banner">
-                <p>Welcome to Ecommerce</p>
-                <h1>FIND AMAZING PRODUCTS BELOW</h1>
+            {loading ? (
+                <Loader />
+            ) : (
+                <Fragment>
+                    <MetaData title="ECOMMERCE" />
 
-                <a href="#container">
-                    <button>
-                        Scroll <FaBeer />
-                    </button>
-                </a>
-            </div>
+                    <div className="banner">
+                        <p>Welcome to Ecommerce</p>
+                        <h1>FIND AMAZING PRODUCTS BELOW</h1>
 
-            <h2 className="homeHeading">Featured Products</h2>
-            <div className="container" id="container">
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-            </div>
+                        <a href="#container">
+                            <button>
+                                Scroll <FaBeer />
+                            </button>
+                        </a>
+                    </div>
+
+                    <h2 className="homeHeading">Featured Products</h2>
+
+                    <div className="container" id="container">
+                        {products &&
+                            products.map((product) => (
+                                <ProductCard key={product._id} product={product} />
+                            ))}
+                    </div>
+                </Fragment>
+            )}
         </Fragment>
     );
 };
