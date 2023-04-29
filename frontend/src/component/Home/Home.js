@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from "react";
-import { FaBeer } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 // import { useAlert } from "react-alert";
 import "./Home.css";
@@ -36,7 +35,7 @@ const Home = () => {
 
                         <a href="#container">
                             <button>
-                                Scroll <FaBeer />
+                                Scroll 
                             </button>
                         </a>
                     </div>
