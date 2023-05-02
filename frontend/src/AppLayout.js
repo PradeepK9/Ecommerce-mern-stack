@@ -8,6 +8,16 @@ import { Outlet, createBrowserRouter } from "react-router-dom";
 import WebFont from "webfontloader";
 import { Provider } from 'react-redux';
 import store from './store';
+import { positions, transitions, Provider as AlertProvider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
+
+import ProductDetails from "./component/Product/ProductDetails.js";
+
+const options = {
+  timeout: 5000,
+  position: positions.BOTTOM_CENTER,
+  transition: transitions.SCALE,
+};
 
 function AppLayout() {
   useEffect(() => {
@@ -20,9 +30,11 @@ function AppLayout() {
 
   return (
     <Provider store={store}>
-      <Header />
-      <Outlet />
-      <Footer />
+      <AlertProvider template={AlertTemplate} {...options}>
+        <Header />
+        <Outlet />
+        <Footer />
+      </AlertProvider>
     </Provider>
   );
 }
@@ -36,6 +48,10 @@ const appRouter = createBrowserRouter(
         {
           path: '/',
           element: <Home />
+        },
+        {
+          path: '/product/:id',
+          element: <ProductDetails />
         }
       ]
     }

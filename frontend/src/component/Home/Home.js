@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { useAlert } from "react-alert";
+import { useAlert } from "react-alert";
 import "./Home.css";
 import ProductCard from "./ProductCard.js";
 import MetaData from "../layout/MetaData";
@@ -8,18 +8,20 @@ import { clearErrors, getProduct } from "../../actions/productAction.js";
 import Loader from "../layout/Loader/Loader.js";
 
 const Home = () => {
-    // const alert = useAlert();
+    const alert = useAlert();
     const dispatch = useDispatch();
     const { loading, error, products } = useSelector((state) => state.products);
 
     useEffect(() => {
         if (error) {
-            // alert.error(error);
-            console.log("error=> ",error)
+            alert.error(error);
             dispatch(clearErrors());
         }
+    }, [error, alert, dispatch]);
+
+    useEffect(() => {
         dispatch(getProduct());
-    }, [dispatch, error]);
+    }, [dispatch]);
 
     return (
         <Fragment>
@@ -35,7 +37,7 @@ const Home = () => {
 
                         <a href="#container">
                             <button>
-                                Scroll 
+                                Scroll
                             </button>
                         </a>
                     </div>
