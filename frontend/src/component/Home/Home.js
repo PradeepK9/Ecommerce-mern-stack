@@ -8,18 +8,6 @@ import { clearErrors, getProduct } from "../../actions/productAction.js";
 import Loader from "../layout/Loader/Loader.js";
 
 const Home = () => {
-    // const alert = useAlert();
-    // const dispatch = useDispatch();
-    // const { loading, error, products } = useSelector((state) => state.products);
-
-    // useEffect(() => {
-    //     if (error) {
-    //         alert.error(error);
-    //         dispatch(clearErrors());
-    //     }
-    //     dispatch(getProduct());
-    // }, [dispatch,error, alert]);
-
     const alert = useAlert();
     const dispatch = useDispatch();
     const { loading, error, products } = useSelector((state) => state.products);
@@ -34,8 +22,6 @@ const Home = () => {
     useEffect(() => {
         dispatch(getProduct());
     }, [dispatch]);
-
-
 
     return (
         <Fragment>

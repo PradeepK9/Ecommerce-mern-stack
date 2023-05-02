@@ -11,6 +11,8 @@ import store from './store';
 import { positions, transitions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 
+import ProductDetails from "./component/Product/ProductDetails.js";
+
 const options = {
   timeout: 5000,
   position: positions.BOTTOM_CENTER,
@@ -46,6 +48,10 @@ const appRouter = createBrowserRouter(
         {
           path: '/',
           element: <Home />
+        },
+        {
+          path: '/product/:id',
+          element: <ProductDetails />
         }
       ]
     }
