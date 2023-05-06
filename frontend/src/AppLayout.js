@@ -12,6 +12,7 @@ import { positions, transitions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 
 import ProductDetails from "./component/Product/ProductDetails.js";
+import Products from './component/Product/Products';
 
 const options = {
   timeout: 5000,
@@ -52,6 +53,14 @@ const appRouter = createBrowserRouter(
         {
           path: '/product/:id',
           element: <ProductDetails />
+        },
+        {
+          path: '/products',
+          element: <Products />
+        },
+        {
+          path: '/products/:keyword',
+          element: <Products />
         }
       ]
     }
