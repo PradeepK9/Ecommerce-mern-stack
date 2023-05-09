@@ -7,7 +7,7 @@ const APIFeatures = require('../utils/apiFeatures.js');
 // Create product ==> admin
 exports.createProduct = catchAsyncErrorHandler(async (req, res, next) => {
 
-    // Save the user id who is reating the product
+    // Save the user id who is rating the product
     req.body.user = req.user.id;    // During user auth we added user in req
 
     const product = await productModel.create(req.body);
@@ -20,7 +20,7 @@ exports.createProduct = catchAsyncErrorHandler(async (req, res, next) => {
 // Get all products
 exports.getAllProducts = catchAsyncErrorHandler(async (req, res, next) => {
     const productCount = await productModel.countDocuments();
-    // const resultPerPage = 3;
+    // const resultPerPage = 5;
     const apiFeature = new APIFeatures(productModel.find(), req.query)
         .search()
         .filter()
