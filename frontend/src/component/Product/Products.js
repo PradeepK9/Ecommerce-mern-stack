@@ -10,6 +10,7 @@ import { useAlert } from "react-alert";
 import Typography from "@material-ui/core/Typography";
 import MetaData from "../layout/MetaData";
 import { useParams } from "react-router-dom";
+import Search from "./Search";
 
 const categories = [
   "Laptop",
@@ -68,6 +69,7 @@ const Products = () => {
       ) : (
         <Fragment>
           <MetaData title="PRODUCTS -- ECOMMERCE" />
+          <Search />
           <h2 className="productsHeading">Products</h2>
 
           <div className="products">
