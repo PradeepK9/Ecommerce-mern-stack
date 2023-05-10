@@ -14,6 +14,8 @@ import AlertTemplate from "react-alert-template-basic";
 import ProductDetails from "./component/Product/ProductDetails.js";
 import Products from './component/Product/Products';
 import Search from './component/Product/Search';
+import About from './component/layout/About/About';
+import Contact from './component/layout/Contact/Contact';
 
 const options = {
   timeout: 5000,
@@ -65,7 +67,15 @@ const appRouter = createBrowserRouter(
         },
         {
           path: '/search',
-          element: <Search/>
+          element: <Search />
+        },
+        {
+          path: '/about',
+          element: <About />
+        },
+        {
+          path: '/contact',
+          element: <Contact />
         }
       ]
     }

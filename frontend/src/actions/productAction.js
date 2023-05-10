@@ -26,7 +26,7 @@ export const getProduct =
         //   link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
         // }
 
-        let link = `/api/v1/products?keyword=${keyword}`;
+        let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}`;
 
         // if (category) {
         //   link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
